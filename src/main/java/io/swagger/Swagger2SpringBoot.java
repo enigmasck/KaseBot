@@ -16,6 +16,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
     @Override
     public void run(String... arg0) throws Exception {
         if (arg0.length > 0 && arg0[0].equals("exitcode")) {
+            //adding new comment for an example - Tim - you cna delete this later
             throw new ExitException();
         }
     }
