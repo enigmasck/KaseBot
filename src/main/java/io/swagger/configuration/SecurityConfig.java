@@ -31,56 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           auth.inMemoryAuthentication().withUser("miage").password("password").roles("USER");
           auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
     }
-
-
-  //--------------------------------------------
-  // Rule 1 : security for all API
-  //--------------------------------------------
-  /*@Override protected void configure(HttpSecurity http) throws Exception {    
-    http.httpBasic().
-      realmName("spring-app").
-      and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-      and().csrf().disable().
-      authorizeRequests().anyRequest().fullyAuthenticated().and().
-      httpBasic();
-  }*/
-
-  //--------------------------------------------
-      // Rule 2 : security based on URL
-  //--------------------------------------------
-    /*@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().
-                realmName("spring-app").
-                and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-                and().csrf().disable().
-                authorizeRequests().antMatchers("/rest/**").fullyAuthenticated().and().httpBasic();
-    }*/
-
-
-
-  //--------------------------------------------
-      // Rule 3 : security based on ROLE
-  //--------------------------------------------
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().
-           realmName("spring-app").
-           and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-           and().csrf().disable().
-           authorizeRequests().antMatchers("/**").hasAnyRole("ADMIN").anyRequest().fullyAuthenticated().and()
-                       .httpBasic();
-        http.httpBasic().
-           realmName("spring-app").
-           and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-           and().csrf().disable().
-           authorizeRequests().antMatchers("/chat/**").hasAnyRole("USER").anyRequest().fullyAuthenticated().and().httpBasic();
-        
-        http.httpBasic().
-           realmName("spring-app").
-           and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-           and().csrf().disable().
-           authorizeRequests().antMatchers("/customers/**").hasAnyRole("USER").anyRequest().fullyAuthenticated().and().httpBasic();
+    
+    @Override protected void configure(HttpSecurity http) throws Exception {    
+      http.httpBasic().
+        realmName("spring-app").
+        and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+        and().csrf().disable().
+        authorizeRequests().anyRequest().fullyAuthenticated().and().
+        httpBasic();
     }
 
 
