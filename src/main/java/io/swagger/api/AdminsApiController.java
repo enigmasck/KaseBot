@@ -22,8 +22,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminsApiController implements AdminsApi {
 
     private static final Logger log = LoggerFactory.getLogger(AdminsApiController.class);
