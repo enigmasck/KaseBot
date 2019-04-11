@@ -7,6 +7,8 @@ import io.swagger.model.ModelCase;
 import io.swagger.model.ResolOnUnresol;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.model.ResUnRes;
+import io.swagger.model.ResolOnUnresolInner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,10 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.threeten.bp.Month;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
 public class ReportsApiController implements ReportsApi {
@@ -48,7 +52,21 @@ public class ReportsApiController implements ReportsApi {
 
     public ResponseEntity<ResolOnUnresol> reportsResolOnUnresolTimeGet() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<ResolOnUnresol>(HttpStatus.NOT_IMPLEMENTED);
+        ResolOnUnresol rou = new ResolOnUnresol();
+        ResolOnUnresolInner roui = new ResolOnUnresolInner();
+        
+        //dates = SELECT DISTINCT date_time from Cases
+        
+        roui.setTotalCases(Long.valueOf(23));
+        roui.setDateTime(LocalDate.of(2019, Month.of(3), 1));
+        roui.setStatus(ResUnRes.RESOLVED);
+        
+        rou.add(roui);
+        
+        if(rou == null)
+            return new ResponseEntity<ResolOnUnresol>(HttpStatus.NOT_FOUND);
+        //Response
+        return new ResponseEntity<ResolOnUnresol>(rou, HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<ModelCase>> reportsSearchCaseGet(@ApiParam(value = "") @Valid @RequestParam(value = "CaseID", required = false) Long caseID,@ApiParam(value = "") @Valid @RequestParam(value = "CustomerID", required = false) Long customerID,@ApiParam(value = "") @Valid @RequestParam(value = "firstName", required = false) String firstName,@ApiParam(value = "") @Valid @RequestParam(value = "lastName", required = false) String lastName,@ApiParam(value = "") @Valid @RequestParam(value = "date", required = false) LocalDate date,@ApiParam(value = "") @Valid @RequestParam(value = "keyWord", required = false) String keyWord) {
