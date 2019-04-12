@@ -26,6 +26,7 @@ import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Api(value = "customers", description = "the customers API")
 public interface CustomersApi {
+    
 
     @ApiOperation(value = "", nickname = "createCustomer", notes = "Creates a new customer.", tags={  })
     @ApiResponses(value = { 
