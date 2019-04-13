@@ -13,36 +13,44 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * User
  */
 @Entity
+@Table(name = "customer")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 public class User   {
   @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   @JsonProperty("id")
-  private Long id = null;
+  private Long customer_id = null;
 
   @JsonProperty("firstName")
-  private String firstName = null;
+  private String fname = null;
 
   @JsonProperty("lastName")
-  private String lastName = null;
+  private String lname = null;
 
   @JsonProperty("email")
   private String email = null;
 
   @JsonProperty("address")
   @Valid
+  @OneToMany
+  @JoinColumn(name="customer_id")
   private List<UserAddress> address = null;
 
   public User id(Long id) {
-    this.id = id;
+    this.customer_id = id;
     return this;
   }
 
@@ -53,15 +61,15 @@ public class User   {
   @ApiModelProperty(value = "")
 
   public Long getId() {
-    return id;
+    return customer_id;
   }
 
   public void setId(Long id) {
-    this.id = id;
+    this.customer_id = id;
   }
 
   public User firstName(String firstName) {
-    this.firstName = firstName;
+    this.fname = firstName;
     return this;
   }
 
@@ -72,15 +80,15 @@ public class User   {
   @ApiModelProperty(value = "")
 
   public String getFirstName() {
-    return firstName;
+    return fname;
   }
 
   public void setFirstName(String firstName) {
-    this.firstName = firstName;
+    this.fname = firstName;
   }
 
   public User lastName(String lastName) {
-    this.lastName = lastName;
+    this.lname = lastName;
     return this;
   }
 
@@ -91,11 +99,11 @@ public class User   {
   @ApiModelProperty(value = "")
 
   public String getLastName() {
-    return lastName;
+    return lname;
   }
 
   public void setLastName(String lastName) {
-    this.lastName = lastName;
+    this.lname = lastName;
   }
 
   public User email(String email) {
@@ -134,7 +142,7 @@ public class User   {
    * Get address
    * @return address
   **/
-  @ApiModelProperty(value = "")
+  /*@ApiModelProperty(value = "")
   @Valid
   public List<UserAddress> getAddress() {
     return address;
@@ -142,7 +150,7 @@ public class User   {
 
   public void setAddress(List<UserAddress> address) {
     this.address = address;
-  }
+  }*/
 
 
   @Override
@@ -154,28 +162,28 @@ public class User   {
       return false;
     }
     User user = (User) o;
-    return Objects.equals(this.id, user.id) &&
-        Objects.equals(this.firstName, user.firstName) &&
-        Objects.equals(this.lastName, user.lastName) &&
-        Objects.equals(this.email, user.email) &&
-        Objects.equals(this.address, user.address);
+    return Objects.equals(this.customer_id, user.customer_id) &&
+        Objects.equals(this.fname, user.fname) &&
+        Objects.equals(this.lname, user.lname) &&
+        Objects.equals(this.email, user.email);
+        //Objects.equals(this.address, user.address);
   }
 
-  @Override
+  /*@Override
   public int hashCode() {
     return Objects.hash(id, firstName, lastName, email, address);
-  }
+  }*/
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
-    sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
+    sb.append("    id: ").append(toIndentedString(customer_id)).append("\n");
+    sb.append("    firstName: ").append(toIndentedString(fname)).append("\n");
+    sb.append("    lastName: ").append(toIndentedString(lname)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
-    sb.append("    address: ").append(toIndentedString(address)).append("\n");
+    //sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("}");
     return sb.toString();
   }
