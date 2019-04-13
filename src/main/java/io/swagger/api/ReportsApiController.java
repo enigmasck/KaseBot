@@ -7,6 +7,7 @@ import io.swagger.model.ModelCase;
 import io.swagger.model.ResolOnUnresol;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.dao.DAO;
 import io.swagger.model.ResUnRes;
 import io.swagger.model.ResolOnUnresolInner;
 import org.slf4j.Logger;
@@ -25,9 +26,12 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.threeten.bp.Month;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
@@ -38,6 +42,8 @@ public class ReportsApiController implements ReportsApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    private DAO dao = new DAO();
 
     @org.springframework.beans.factory.annotation.Autowired
     public ReportsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -77,6 +83,11 @@ public class ReportsApiController implements ReportsApi {
     public ResponseEntity<List<Message>> reportsViewMessageCaseIdGet(@ApiParam(value = "The case Id",required=true) @PathVariable("caseId") Long caseId) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<List<Message>>(HttpStatus.NOT_IMPLEMENTED);
+    }
+    
+    @RequestMapping(path = "/report/casesNumberByStatus/{date}", method=RequestMethod.GET)
+    public Map<String, Integer> getCode(@PathVariable String date) throws SQLException{
+        return dao.getNumberOfCaseInDifferentStatus(date);
     }
 
 }
