@@ -32,7 +32,7 @@ public class User   {
   @Id
   @GeneratedValue(strategy=GenerationType.AUTO)
   @JsonProperty("id")
-  private Long customer_id = null;
+  private Integer customer_id = null;
 
   @JsonProperty("firstName")
   private String fname = null;
@@ -48,8 +48,10 @@ public class User   {
   @OneToMany
   @JoinColumn(name="customer_id")
   private List<UserAddress> address = null;
+  
+  private String password = null;
 
-  public User id(Long id) {
+  public User id(Integer id) {
     this.customer_id = id;
     return this;
   }
@@ -60,11 +62,11 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
 
-  public Long getId() {
+  public Integer getId() {
     return customer_id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.customer_id = id;
   }
 
@@ -142,7 +144,7 @@ public class User   {
    * Get address
    * @return address
   **/
-  /*@ApiModelProperty(value = "")
+  @ApiModelProperty(value = "")
   @Valid
   public List<UserAddress> getAddress() {
     return address;
@@ -150,8 +152,16 @@ public class User   {
 
   public void setAddress(List<UserAddress> address) {
     this.address = address;
-  }*/
+  }
 
+  /**
+   * Get password
+   * @return password
+  **/
+  
+  public String getPassword(){
+      return this.password;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
