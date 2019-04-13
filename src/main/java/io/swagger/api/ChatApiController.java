@@ -4,6 +4,7 @@ import io.swagger.model.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.dialogflow.v2.QueryResult;
 import io.swagger.annotations.*;
+import io.swagger.model.DetectIntentTexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,10 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
 public class ChatApiController implements ChatApi {
@@ -47,9 +50,18 @@ public class ChatApiController implements ChatApi {
     public ResponseEntity<Message> submitMessage(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Message body) {
         String accept = request.getHeader("Accept");
         List<String> texts = new ArrayList<>();
-        /*texts.add(message);
-        
-        Map<String, QueryResult> map = detectIntentTexts("kasebot-de43d", texts, String sessionId,String languageCode);*/
+        texts.add(body.getText());
+        DetectIntentTexts dit = new DetectIntentTexts();
+        Map<String, QueryResult> response = new HashMap<String, QueryResult>();
+        try {
+            response = dit.detectIntentTexts("kasebot-de43d", texts, "1", "en-US");
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ChatApiController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String messageResponse = response.get(body.getText()).getFulfillmentText();
+        Message message = new Message();
+        message.setText(messageResponse);
+        message.setId(Long.MIN_VALUE);
         return new ResponseEntity<Message>(HttpStatus.NOT_IMPLEMENTED);
     }
 
