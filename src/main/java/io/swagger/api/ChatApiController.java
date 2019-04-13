@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import org.threeten.bp.OffsetDateTime;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
 public class ChatApiController implements ChatApi {
@@ -61,8 +62,10 @@ public class ChatApiController implements ChatApi {
         String messageResponse = response.get(body.getText()).getFulfillmentText();
         Message message = new Message();
         message.setText(messageResponse);
-        message.setId(Long.MIN_VALUE);
-        return new ResponseEntity<Message>(HttpStatus.NOT_IMPLEMENTED);
+        message.setId(1L);
+        OffsetDateTime dateTime = OffsetDateTime.now();
+        message.setMsgDateTime(dateTime);
+        return new ResponseEntity<Message>(message, HttpStatus.NOT_IMPLEMENTED);
     }
 
 }
