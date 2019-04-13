@@ -67,10 +67,10 @@ public class DetectIntentTexts {
       // Detect intents for each text input
       for (String text : texts) {
         // Set the text (hello) and language code (en-US) for the query
-        TextInput.Builder textInput = TextInput.newBuilder().setText(text).setLanguageCode(languageCode).build();
+        Builder textInput = TextInput.newBuilder().setText(text).setLanguageCode(languageCode);
 
         // Build the query with the TextInput
-        QueryInput queryInput = QueryInput.newBuilder().setText().build();
+        QueryInput queryInput = QueryInput.newBuilder().setText(textInput).build();
 
 
         // Performs the detect intent request

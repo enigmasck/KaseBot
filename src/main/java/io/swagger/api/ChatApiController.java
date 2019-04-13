@@ -2,6 +2,7 @@ package io.swagger.api;
 
 import io.swagger.model.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.cloud.dialogflow.v2.QueryResult;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
@@ -44,6 +46,10 @@ public class ChatApiController implements ChatApi {
 
     public ResponseEntity<Message> submitMessage(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Message body) {
         String accept = request.getHeader("Accept");
+        List<String> texts = new ArrayList<>();
+        /*texts.add(message);
+        
+        Map<String, QueryResult> map = detectIntentTexts("kasebot-de43d", texts, String sessionId,String languageCode);*/
         return new ResponseEntity<Message>(HttpStatus.NOT_IMPLEMENTED);
     }
 
