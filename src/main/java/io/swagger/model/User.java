@@ -25,6 +25,7 @@ import javax.persistence.Id;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 public class User   {
   @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
   @JsonProperty("id")
   private Long id = null;
 
