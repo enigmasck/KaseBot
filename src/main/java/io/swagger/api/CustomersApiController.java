@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import io.swagger.model.UserCustRepository;
+import java.util.Optional;
 
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
@@ -60,26 +61,37 @@ public class CustomersApiController implements CustomersApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    //gets a customer using GET and ID. Returns an optional, which is basically
+    //a container that allows for NULL
     public ResponseEntity<User> customersCustIdGet(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<User>(HttpStatus.OK);
+        Optional<User> cust = userCustRepository.findById(custId);
+        if(cust.isPresent() == true)
+            return new ResponseEntity<User>(cust.get(),HttpStatus.OK);
+        else
+            return new ResponseEntity<User>(HttpStatus.NO_CONTENT); 
     }
-
+    
+    //Adds new customer using Spring JPA
     public ResponseEntity<Void> customersCustIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
-
+    
+    //Gets all customers using the Srping JPA MAGIC!!!
     public ResponseEntity<List<User>> customersGet() {
         String accept = request.getHeader("Accept");
         List<User> custList = Lists.newArrayList(userCustRepository.findAll());
-        return new ResponseEntity<List<User>>(custList,HttpStatus.NOT_IMPLEMENTED);
-        //return new ResponseEntity<List<User>>(HttpStatus.NOT_IMPLEMENTED);
+        if(custList != null)
+            return new ResponseEntity<List<User>>(custList,HttpStatus.OK);
+        else
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT); 
     }
-
-    public ResponseEntity<Void> loginCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body) {
+    
+    //Not sure if this needs to be implement since this is handle by Spring Security
+    /*public ResponseEntity<Void> loginCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }
+    }*/
 
 }
