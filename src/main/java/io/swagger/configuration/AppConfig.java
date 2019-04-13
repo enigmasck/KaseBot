@@ -16,6 +16,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
  *
  * @author enigmasck
  */
+
 @Configuration
 public class AppConfig {
 
