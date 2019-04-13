@@ -35,10 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     //users configuration
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        List<User> custList = Lists.newArrayList(userCustRepository.findAll());
+        
+        /*List<User> custList = Lists.newArrayList(userCustRepository.findAll());
         for(E element: custList){
             auth.inMemoryAuthentication().withUser(element.getEmail()).password((element.getPassword())).roles("USER");
-        }
+        }*/
         
         auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
     }
