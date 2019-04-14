@@ -24,7 +24,8 @@ import javax.validation.constraints.*;
 public class UserAddress   {
     
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  //@GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer customer_address_id = null;
   
   @JsonProperty("city")
