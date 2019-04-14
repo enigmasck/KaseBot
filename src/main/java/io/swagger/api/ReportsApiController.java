@@ -85,9 +85,9 @@ public class ReportsApiController implements ReportsApi {
         return new ResponseEntity<List<Message>>(HttpStatus.NOT_IMPLEMENTED);
     }
     
-    @RequestMapping(path = "/report/casesNumberByStatus/{date}", method=RequestMethod.GET)
+    /*@RequestMapping(path = "/report/casesNumberByStatus/{date}", method=RequestMethod.GET)
     public Map<String, Integer> getCode(@PathVariable String date) throws SQLException{
         return dao.getNumberOfCaseInDifferentStatus(date);
-    }
+    }*/
 
 }

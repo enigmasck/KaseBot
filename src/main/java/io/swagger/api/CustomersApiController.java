@@ -53,7 +53,13 @@ public class CustomersApiController implements CustomersApi {
 
     public ResponseEntity<Void> createCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        
+        if(body != null && body.getEmail().length() > 3 && body.getPassword().length() > 3){
+            userCustRepository.save(body);
+            return new ResponseEntity<Void>(HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     public ResponseEntity<Void> customersCustIdDelete(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
