@@ -141,6 +141,14 @@ public class User   {
     this.address.add(addressItem);
     return this;
   }
+  
+  public User removeAddressItem(UserAddress addressItem) {
+    if (this.address == null) {
+      this.address = new ArrayList<UserAddress>();
+    }
+    this.address.remove(addressItem);
+    return this;
+  }
 
   /**
    * Get address
@@ -164,6 +172,31 @@ public class User   {
   public String getPassword(){
       return this.password;
   }
+  
+  public void updateUserFields(User newFlds){
+    if(!newFlds.equals(this)){
+        if(this.email != newFlds.email && !newFlds.email.equals(""))
+            this.email = newFlds.email;
+        if(this.fname != newFlds.fname && !newFlds.fname.equals(""))
+            this.fname = newFlds.fname;
+        if(this.lname != newFlds.lname && !newFlds.lname.equals(""))
+          this.lname = newFlds.lname;
+        if(this.password != newFlds.password && !newFlds.password.equals(""))
+          this.password = newFlds.password;
+        
+        //add all the user addresses that are in the new UserAddress
+        for(UserAddress u: newFlds.address){
+            if(!this.address.contains(u) && !u.getCity().equals(""))
+                this.addAddressItem(u);
+        }
+        //if the city doesn't exist in the new user addresses then remove them
+        for(UserAddress u: this.address){
+            if(!newFlds.address.contains(u)){
+                this.removeAddressItem(u);
+            }
+        }
+    }   
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -174,11 +207,10 @@ public class User   {
       return false;
     }
     User user = (User) o;
-    return Objects.equals(this.customer_id, user.customer_id) &&
-        Objects.equals(this.fname, user.fname) &&
+    return Objects.equals(this.fname, user.fname) &&
         Objects.equals(this.lname, user.lname) &&
-        Objects.equals(this.email, user.email);
-        //Objects.equals(this.address, user.address);
+        Objects.equals(this.email, user.email) &&
+        Objects.equals(this.address, user.address);
   }
 
   /*@Override

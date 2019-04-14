@@ -54,17 +54,29 @@ public class CustomersApiController implements CustomersApi {
     public ResponseEntity<Void> createCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
         
+        //check to see if user email already exists
+        List<User> testEmail = userCustRepository.findByEmail(body.getEmail());
+        if(testEmail.size() > 0 ){
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+
         if(body != null && body.getEmail().length() > 3 && body.getPassword().length() > 3){
             userCustRepository.save(body);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         }else{
-            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
     }
 
     public ResponseEntity<Void> customersCustIdDelete(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        try{
+            userCustRepository.deleteById(custId);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        
     }
 
     //gets a customer using GET and ID. Returns an optional, which is basically
@@ -78,10 +90,26 @@ public class CustomersApiController implements CustomersApi {
             return new ResponseEntity<User>(HttpStatus.NO_CONTENT); 
     }
     
-    //Adds new customer using Spring JPA
+    //Modifies a customer using Spring JPA
     public ResponseEntity<Void> customersCustIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        
+        Optional<User> oldUser = userCustRepository.findById(custId);
+        
+        if(oldUser.isPresent()){
+            
+            if(body != null && !oldUser.get().equals(body)){
+                oldUser.get().updateUserFields(body);
+                userCustRepository.save(oldUser.get());
+                return new ResponseEntity<Void>(HttpStatus.CREATED);
+            }else{
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            }
+
+        }else{
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+        
     }
     
     //Gets all customers using the Srping JPA MAGIC!!!
