@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //Set auth for admin in the DB
         List<Administrator> adminList = Lists.newArrayList(adminRepo.findAll());
         for(Administrator i: adminList){
-            System.out.println("UserName = " + i.getLoginName() + " PW="+i.getPassword());
+            //System.out.println("UserName = " + i.getLoginName() + " PW="+i.getPassword());
             auth.inMemoryAuthentication().withUser(i.getLoginName()).password((i.getPassword())).roles("ADMIN");
         }
     }
