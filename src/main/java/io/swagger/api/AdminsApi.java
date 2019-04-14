@@ -8,6 +8,7 @@ package io.swagger.api;
 import io.swagger.model.Login;
 import io.swagger.model.User;
 import io.swagger.annotations.*;
+import io.swagger.model.Administrator;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +40,7 @@ public interface AdminsApi {
     ResponseEntity<Void> adminsAdminIdDelete(@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId);
 
 
-    @ApiOperation(value = "", nickname = "adminsAdminIdGet", notes = "Gets a admin by their id.", response = User.class, authorizations = {
+    @ApiOperation(value = "", nickname = "adminsAdminIdGet", notes = "Gets a admin by their id.", response = Administrator.class, authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK Admin obtained.", response = User.class),
@@ -49,7 +50,7 @@ public interface AdminsApi {
     @RequestMapping(value = "/admins/{adminId}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<User> adminsAdminIdGet(@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId);
+    ResponseEntity<Administrator> adminsAdminIdGet(@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId);
 
 
     @ApiOperation(value = "", nickname = "adminsAdminIdPut", notes = "Modifies an admin", authorizations = {
@@ -62,10 +63,10 @@ public interface AdminsApi {
     @RequestMapping(value = "/admins/{adminId}",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> adminsAdminIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId);
+    ResponseEntity<Void> adminsAdminIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Administrator body,@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId);
 
 
-    @ApiOperation(value = "", nickname = "adminsGet", notes = "Obtains all the admins", response = User.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "adminsGet", notes = "Obtains all the admins", response = Administrator.class, responseContainer = "List", authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK Admins obtained", response = User.class, responseContainer = "List"),
@@ -75,7 +76,7 @@ public interface AdminsApi {
     @RequestMapping(value = "/admins",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<User>> adminsGet();
+    ResponseEntity<List<Administrator>> adminsGet();
 
 
     @ApiOperation(value = "", nickname = "createAdmin", notes = "Creates a new admin.", tags={  })
@@ -84,15 +85,15 @@ public interface AdminsApi {
     @RequestMapping(value = "/admins",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> createAdmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body);
+    ResponseEntity<Void> createAdmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Administrator body);
 
 
-    @ApiOperation(value = "", nickname = "loginAmin", notes = "Logs the admin into account", tags={  })
+    /*@ApiOperation(value = "", nickname = "loginAmin", notes = "Logs the admin into account", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 204, message = "Login Successful") })
     @RequestMapping(value = "/admins/Login",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> loginAmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body);
+    ResponseEntity<Void> loginAmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body);*/
 
 }

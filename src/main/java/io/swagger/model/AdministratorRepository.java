@@ -5,6 +5,7 @@
  */
 package io.swagger.model;
 
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -12,5 +13,5 @@ import org.springframework.data.repository.CrudRepository;
  * @author enigmasck
  */
 public interface AdministratorRepository extends CrudRepository<Administrator, Integer>{
-    
+    List<Administrator> findByLoginName(String loginName);
 }

@@ -8,6 +8,7 @@ package io.swagger.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,8 +26,10 @@ import org.springframework.validation.annotation.Validated;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 public class Administrator {
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  //@GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonProperty("id")
+  @Column(name="administrator_id")
   private Integer administrator_id = null;
 
   @JsonProperty("firstName")
@@ -36,7 +39,8 @@ public class Administrator {
   private String lname = null;
 
   @JsonProperty("login_name")
-  private String login_name = null;
+  @Column(name="login_name")
+  private String loginName = null;
   
   @JsonProperty("password")
   private String password = null;
@@ -104,16 +108,16 @@ public class Administrator {
   **/
   
   public Administrator login_name(String login_name) {
-    this.login_name = login_name;
+    this.loginName = login_name;
     return this;
   }
 
   public String getLoginName() {
-    return login_name;
+    return loginName;
   }
 
   public void setLoginName(String login_name) {
-    this.login_name = login_name;
+    this.loginName = login_name;
   }
 
 
@@ -125,6 +129,20 @@ public class Administrator {
   public String getPassword(){
       return this.password;
   }
+  
+    public void updateUserFields(Administrator newFlds){
+    if(!newFlds.equals(this)){
+        if(this.loginName != newFlds.loginName && !newFlds.loginName.equals(""))
+            this.loginName = newFlds.loginName;
+        if(this.fname != newFlds.fname && !newFlds.fname.equals(""))
+            this.fname = newFlds.fname;
+        if(this.lname != newFlds.lname && !newFlds.lname.equals(""))
+          this.lname = newFlds.lname;
+        if(this.password != newFlds.password && !newFlds.password.equals(""))
+          this.password = newFlds.password;
+        
+    }   
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -135,11 +153,9 @@ public class Administrator {
       return false;
     }
     Administrator admin = (Administrator) o;
-    return Objects.equals(this.administrator_id, admin.administrator_id) &&
-        Objects.equals(this.fname, admin.fname) &&
+    return Objects.equals(this.fname, admin.fname) &&
         Objects.equals(this.lname, admin.lname) &&
-        Objects.equals(this.login_name, admin.login_name);
-        //Objects.equals(this.address, user.address);
+        Objects.equals(this.loginName, admin.loginName);
   }
 
   /*@Override
@@ -155,7 +171,7 @@ public class Administrator {
     sb.append("    id: ").append(toIndentedString(administrator_id)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(fname)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lname)).append("\n");
-    sb.append("    login_name: ").append(toIndentedString(login_name)).append("\n");
+    sb.append("    login_name: ").append(toIndentedString(loginName)).append("\n");
     //sb.append("    address: ").append(toIndentedString(address)).append("\n");
     sb.append("}");
     return sb.toString();

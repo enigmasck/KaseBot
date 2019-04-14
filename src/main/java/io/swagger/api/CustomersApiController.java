@@ -57,14 +57,14 @@ public class CustomersApiController implements CustomersApi {
         //check to see if user email already exists
         List<User> testEmail = userCustRepository.findByEmail(body.getEmail());
         if(testEmail.size() > 0 ){
-            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
 
         if(body != null && body.getEmail().length() > 3 && body.getPassword().length() > 3){
             userCustRepository.save(body);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         }else{
-            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -74,7 +74,7 @@ public class CustomersApiController implements CustomersApi {
             userCustRepository.deleteById(custId);
             return new ResponseEntity<Void>(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
         
     }
@@ -107,7 +107,7 @@ public class CustomersApiController implements CustomersApi {
             }
 
         }else{
-            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
         
     }
