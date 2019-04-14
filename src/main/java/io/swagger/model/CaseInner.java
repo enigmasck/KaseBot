@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.ResUnRes;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,22 +19,26 @@ import javax.validation.constraints.*;
 /**
  * CaseInner
  */
+@Entity
+@Table(name = "cases")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 public class CaseInner   {
-  @JsonProperty("case_id")
+  @Id
+  @GeneratedValue(strategy=GenerationType.AUTO)
+  @JsonProperty("cases_id")
   private Long caseId = null;
 
-  @JsonProperty("case_start")
+  @JsonProperty("cases_start")
   private OffsetDateTime caseStart = null;
 
-  @JsonProperty("case_end")
+  @JsonProperty("cases_end")
   private OffsetDateTime caseEnd = null;
 
-  @JsonProperty("case_notes")
+  @JsonProperty("cases_notes")
   private String caseNotes = null;
 
-  @JsonProperty("case_status")
+  @JsonProperty("cases_status")
   private ResUnRes caseStatus = null;
 
   public CaseInner caseId(Long caseId) {
