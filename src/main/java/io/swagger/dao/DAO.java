@@ -22,8 +22,8 @@ import java.util.Map;
 public class DAO {
     
     public static final String URL = "jdbc:mysql://localhost:3306/kasebot";
-    public static final String USERNAME = "root";
-    public static final String PASSWORD = "12345678";
+    public static final String USERNAME = "kasebotuser";
+    public static final String PASSWORD = "kasebot2019";
     private Connection con;
     
     
