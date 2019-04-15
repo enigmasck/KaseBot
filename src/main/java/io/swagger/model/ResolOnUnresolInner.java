@@ -6,6 +6,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.ResUnRes;
+import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,16 +19,25 @@ import javax.validation.constraints.*;
 /**
  * ResolOnUnresolInner
  */
+@Entity
+@Table(name = "resolve_unresolve_rpt_vw")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 public class ResolOnUnresolInner   {
+  @Id
+  @JsonProperty("report_key")
+  private String report_key = null;
+  
   @JsonProperty("total_cases")
+  @Column(name = "total_count")
   private Long totalCases = null;
 
   @JsonProperty("date_time")
+  @Column(name = "case_date")
   private LocalDate dateTime = null;
 
   @JsonProperty("status")
+  @Column(name = "cases_status")
   private ResUnRes status = null;
 
   public ResolOnUnresolInner totalCases(Long totalCases) {
