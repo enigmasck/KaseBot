@@ -6,10 +6,13 @@ import io.swagger.model.Message;
 import io.swagger.model.ModelCase;
 import io.swagger.model.ResolOnUnresol;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.*;
 import io.swagger.dao.DAO;
 import io.swagger.model.ResUnRes;
 import io.swagger.model.ResolOnUnresolInner;
+import io.swagger.model.ResolOnUnresolInnerRepository;
+import io.swagger.model.ResolOnUnresolRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,9 +30,11 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +49,9 @@ public class ReportsApiController implements ReportsApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    @Autowired
+    private ResolOnUnresolInnerRepository ResolOnUnresolInnerRepository;
     
     private DAO dao = new DAO();
 
@@ -61,23 +69,24 @@ public class ReportsApiController implements ReportsApi {
     public ResponseEntity<ResolOnUnresol> reportsResolOnUnresolTimeGet() {
         String accept = request.getHeader("Accept");
         
-        
-        
-        ResolOnUnresol rou = new ResolOnUnresol();
-        ResolOnUnresolInner roui = new ResolOnUnresolInner();
+        ArrayList<ResolOnUnresolInner> ResolOnUnresolList; 
+        ResolOnUnresolList = Lists.newArrayList(ResolOnUnresolInnerRepository.findAll());
+               
+        //ResolOnUnresol rou = new ResolOnUnresol();
+        //ResolOnUnresolInner roui = new ResolOnUnresolInner();
         
         //dates = SELECT DISTINCT date_time from Cases
         
-        roui.setTotalCases(Long.valueOf(23));
-        roui.setDateTime(LocalDate.of(2019, Month.of(3), 1));
-        roui.setStatus(ResUnRes.RESOLVED);
+        //roui.setTotalCases(Long.valueOf(23));
+        //roui.setDateTime(LocalDate.of(2019, Month.of(3), 1));
+        //roui.setStatus(ResUnRes.RESOLVED);
         
-        rou.add(roui);
+        //rou.add(roui);
         
-        if(rou == null)
-            return new ResponseEntity<ResolOnUnresol>(HttpStatus.NOT_FOUND);
+        //if(rou == null)
+         //   return new ResponseEntity<ResolOnUnresol>(HttpStatus.NOT_FOUND);
         //Response
-        return new ResponseEntity<ResolOnUnresol>(rou, HttpStatus.CREATED);
+        return new ResponseEntity<ResolOnUnresol>((ResolOnUnresol) ResolOnUnresolList, HttpStatus.OK);
     }
 
     public ResponseEntity<List<ModelCase>> reportsSearchCaseGet(@ApiParam(value = "") @Valid @RequestParam(value = "CaseID", required = false) Long caseID,@ApiParam(value = "") @Valid @RequestParam(value = "CustomerID", required = false) Long customerID,@ApiParam(value = "") @Valid @RequestParam(value = "firstName", required = false) String firstName,@ApiParam(value = "") @Valid @RequestParam(value = "lastName", required = false) String lastName,@ApiParam(value = "") @Valid @RequestParam(value = "date", required = false) LocalDate date,@ApiParam(value = "") @Valid @RequestParam(value = "keyWord", required = false) String keyWord) {
