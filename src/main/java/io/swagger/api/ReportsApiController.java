@@ -30,11 +30,13 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.threeten.bp.Month;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
+@PreAuthorize("hasRole('ADMIN')")
 public class ReportsApiController implements ReportsApi {
 
     private static final Logger log = LoggerFactory.getLogger(ReportsApiController.class);
@@ -58,6 +60,9 @@ public class ReportsApiController implements ReportsApi {
 
     public ResponseEntity<ResolOnUnresol> reportsResolOnUnresolTimeGet() {
         String accept = request.getHeader("Accept");
+        
+        
+        
         ResolOnUnresol rou = new ResolOnUnresol();
         ResolOnUnresolInner roui = new ResolOnUnresolInner();
         
