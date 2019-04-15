@@ -44,14 +44,5 @@ public class Swagger2SpringBoot implements CommandLineRunner {
         }
 
     }
-    
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-      return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/chat/sub").allowedOrigins("http://localhost:3000");
-            }
-        };
-    }
+
 }
