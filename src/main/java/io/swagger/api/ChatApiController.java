@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import javax.annotation.security.PermitAll;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.threeten.bp.OffsetDateTime;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
-@PermitAll
 public class ChatApiController implements ChatApi {
 
     private static final Logger log = LoggerFactory.getLogger(ChatApiController.class);
