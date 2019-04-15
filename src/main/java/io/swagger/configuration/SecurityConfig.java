@@ -56,11 +56,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override 
     protected void configure(HttpSecurity http) throws Exception {    
       http.httpBasic().
-        realmName("spring-app").
-        and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-        and().csrf().disable().
-        authorizeRequests().anyRequest().fullyAuthenticated().and().
-        httpBasic();
+           realmName("spring-app").
+           and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
+           and().csrf().disable().
+           authorizeRequests().
+              antMatchers("/admins/**").hasAnyRole("ADMIN").
+              antMatchers("/reports/**").hasAnyRole("ADMIN").
+              antMatchers("/customers/**").hasAnyRole("USER","ADMIN").
+              antMatchers("/chat/**").permitAll().
+              anyRequest().fullyAuthenticated().and().httpBasic();
+
     }
 
 

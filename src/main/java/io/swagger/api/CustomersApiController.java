@@ -33,7 +33,6 @@ import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
-@PreAuthorize("hasRole('USER') OR hasRole('ADMIN')")
 public class CustomersApiController implements CustomersApi {
 
     private static final Logger log = LoggerFactory.getLogger(CustomersApiController.class);
