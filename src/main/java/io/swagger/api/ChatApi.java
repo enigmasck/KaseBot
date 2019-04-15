@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.CrossOrigin;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Api(value = "chat", description = "the chat API")
 public interface ChatApi {

@@ -26,9 +26,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import javax.annotation.security.PermitAll;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.threeten.bp.OffsetDateTime;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
+//@PermitAll
 public class ChatApiController implements ChatApi {
 
     private static final Logger log = LoggerFactory.getLogger(ChatApiController.class);
@@ -49,6 +53,7 @@ public class ChatApiController implements ChatApi {
         return new ResponseEntity<List<Message>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    
     public ResponseEntity<Message> submitMessage(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Message body) {
         //Querying the google Dialogflow API to get an answer to the message
         String accept = request.getHeader("Accept");
