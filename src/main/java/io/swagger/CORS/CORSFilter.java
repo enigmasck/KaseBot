@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  *
  * @author hamdom
  */
-@Component
+/*@Component
 public class CORSFilter implements Filter {
 
     @Override
@@ -39,4 +39,4 @@ public class CORSFilter implements Filter {
     @Override
     public void destroy() {}
 
-}
+}*/

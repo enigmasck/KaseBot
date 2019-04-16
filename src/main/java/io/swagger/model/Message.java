@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,14 +25,18 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 public class Message   {
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
+  //@GeneratedValue(strategy=GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  //@Column(name="message_id")
   @JsonProperty("id")
   private Long id = null;
 
   @JsonProperty("text")
+  @Column(name="message_id")
   private String text = null;
 
   @JsonProperty("msgDateTime")
+  @Column(name="message_timestamp")
   private OffsetDateTime msgDateTime = null;
 
   public Message id(Long id) {

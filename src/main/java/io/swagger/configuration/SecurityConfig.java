@@ -63,6 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(Boolean.TRUE);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -70,18 +71,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
     @Override 
     protected void configure(HttpSecurity http) throws Exception {    
-      http.httpBasic().
-           realmName("spring-app").
-           and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
-           //and().csrf().disable().
-           and().cors().
-           and().
-           authorizeRequests().
-              antMatchers("/admins/**").hasAnyRole("ADMIN").
-              antMatchers("/reports/**").hasAnyRole("ADMIN").
-              antMatchers("/customers/**").hasAnyRole("USER","ADMIN").
-              antMatchers("/chat/**").permitAll().
-              anyRequest().fullyAuthenticated().and().httpBasic();
+
+        http.httpBasic().
+        realmName("spring-app").
+        and().cors().
+        and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
+        and().csrf().disable().
+        authorizeRequests().
+            antMatchers("/admins/**").hasAnyRole("ADMIN").
+            antMatchers("/reports/**").hasAnyRole("ADMIN").
+            antMatchers("/customers/**").hasAnyRole("USER","ADMIN").
+            antMatchers("/chat/**").permitAll().
+        anyRequest().fullyAuthenticated().and().httpBasic();
       
     }
 
