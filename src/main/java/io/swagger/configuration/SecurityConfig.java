@@ -20,6 +20,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -77,12 +78,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         and().cors().
         and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
         and().csrf().disable().
-        authorizeRequests().
+        authorizeRequests().//.anyRequest().fullyAuthenticated().
             antMatchers("/admins/**").hasAnyRole("ADMIN").
             antMatchers("/reports/**").hasAnyRole("ADMIN").
-            antMatchers("/customers/**").hasAnyRole("USER","ADMIN").
-            antMatchers("/chat/**").permitAll().
-        anyRequest().fullyAuthenticated().and().httpBasic();
+            antMatchers(HttpMethod.POST,"/customers").permitAll().
+            antMatchers(HttpMethod.DELETE,"/customers/**").hasAnyRole("ADMIN","USER").
+            antMatchers(HttpMethod.PUT,"/customers/**").hasAnyRole("ADMIN","USER").
+            antMatchers(HttpMethod.GET,"/customers").hasAnyRole("ADMIN").
+            antMatchers(HttpMethod.GET,"/customers/**").hasAnyRole("ADMIN","USER").
+            antMatchers(HttpMethod.GET,"/chat/**").hasAnyRole("ADMIN","USER").
+            antMatchers(HttpMethod.POST,"/chat/sub").permitAll()           
+        .and().httpBasic()
+        .and()
+        .formLogin()
+        .loginPage("/login.html")
+        .loginProcessingUrl("/perform_login")
+        .defaultSuccessUrl("/homepage.html", true)
+        .and()
+        .logout()
+        .logoutUrl("/perform_logout")
+        .deleteCookies("JSESSIONID");
       
     }
 

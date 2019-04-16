@@ -66,7 +66,7 @@ public class CustomersApiController implements CustomersApi {
             return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
         }
     }
-
+    
     public ResponseEntity<Void> customersCustIdDelete(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
         try{
