@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,19 +28,19 @@ public class Message   {
   @Id
   //@GeneratedValue(strategy=GenerationType.AUTO)
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  //@Column(name="message_id")
+  @Column(name="message_id")
   @JsonProperty("id")
-  private Long id = null;
+  private Integer id = null;
 
   @JsonProperty("text")
-  @Column(name="message_id")
+  @Column(name="msg_text")
   private String text = null;
 
   @JsonProperty("msgDateTime")
   @Column(name="message_timestamp")
-  private OffsetDateTime msgDateTime = null;
+  private LocalDateTime msgDateTime = null;
 
-  public Message id(Long id) {
+  public Message id(Integer id) {
     this.id = id;
     return this;
   }
@@ -50,11 +51,11 @@ public class Message   {
   **/
   @ApiModelProperty(value = "")
 
-  public Long getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
@@ -77,7 +78,7 @@ public class Message   {
     this.text = text;
   }
 
-  public Message msgDateTime(OffsetDateTime msgDateTime) {
+  public Message msgDateTime(LocalDateTime msgDateTime) {
     this.msgDateTime = msgDateTime;
     return this;
   }
@@ -89,11 +90,11 @@ public class Message   {
   @ApiModelProperty(value = "")
 
   @Valid
-  public OffsetDateTime getMsgDateTime() {
+  public LocalDateTime getMsgDateTime() {
     return msgDateTime;
   }
 
-  public void setMsgDateTime(OffsetDateTime msgDateTime) {
+  public void setMsgDateTime(LocalDateTime msgDateTime) {
     this.msgDateTime = msgDateTime;
   }
 

@@ -11,10 +11,13 @@ import io.swagger.annotations.*;
 import io.swagger.dao.DAO;
 import io.swagger.model.CaseInner;
 import io.swagger.model.CaseInnerRepository;
+import io.swagger.model.MessageRepository;
 import io.swagger.model.ResUnRes;
 import io.swagger.model.ResolOnUnresolInner;
 import io.swagger.model.ResolOnUnresolInnerRepository;
 import io.swagger.model.ResolOnUnresolRepository;
+import io.swagger.model.User;
+import io.swagger.model.UserCustRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -58,6 +61,12 @@ public class ReportsApiController implements ReportsApi {
     @Autowired
     private CaseInnerRepository caseInRepo;
     
+    @Autowired
+    private UserCustRepository userCustRepo;
+    
+    @Autowired
+    private MessageRepository msgRepo;
+    
     private DAO dao = new DAO();
 
     @org.springframework.beans.factory.annotation.Autowired
@@ -98,16 +107,45 @@ public class ReportsApiController implements ReportsApi {
         String accept = request.getHeader("Accept");
         
         try{
-            /*List<CaseInner> casesByLname = caseInRepo.findByCasesCustomerLastName(lastName.toLowerCase());
-            System.out.println(casesByLname.size());
-            if(casesByLname.size() > 0)
-                return new ResponseEntity<List<CaseInner>>(casesByLname,HttpStatus.OK);
-            else
-                return new ResponseEntity<List<CaseInner>>(HttpStatus.NOT_FOUND);*/
-            List<CaseInner> caseByKeyword = caseInRepo.findByCasesNotesContainingIgnoreCase(keyWord);
-            return new ResponseEntity<List<CaseInner>>(caseByKeyword,HttpStatus.OK);
-        }catch(Exception e){
-            System.out.println(e);
+            if(firstName.equals("")){
+                firstName = "";
+            }
+        }catch(Exception e){firstName = "";}
+        
+        try{
+            if(lastName.equals("")){
+                lastName = "";
+            }
+        }catch(Exception e){lastName = "";}
+        
+        try{
+            if(keyWord.equals("")){
+                keyWord = "";
+            }
+        }catch(Exception e){keyWord = "";}
+        
+        
+        if(!firstName.equals("")){        
+            List<CaseInner> casesByFirstName = caseInRepo.findByCasesCustomerFirstName(firstName);
+            
+            return new ResponseEntity<List<CaseInner>>(casesByFirstName,HttpStatus.OK);
+        }
+        
+        
+        if(!lastName.equals("")){        
+            List<CaseInner> casesByLname = caseInRepo.findByCasesCustomerLastName(lastName);
+            
+            return new ResponseEntity<List<CaseInner>>(casesByLname,HttpStatus.OK);
+        }
+        
+
+        if(!keyWord.equals("")){
+            try{
+                List<CaseInner> caseByKeyword = caseInRepo.findByCasesNotesContainingIgnoreCase(keyWord);
+                return new ResponseEntity<List<CaseInner>>(caseByKeyword,HttpStatus.OK);
+            }catch(Exception e){
+                System.out.println(e);
+            }
         }
         
         return new ResponseEntity<List<CaseInner>>(HttpStatus.BAD_REQUEST);
@@ -115,7 +153,12 @@ public class ReportsApiController implements ReportsApi {
 
     public ResponseEntity<List<Message>> reportsViewMessageCaseIdGet(@ApiParam(value = "The case Id",required=true) @PathVariable("caseId") Long caseId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<List<Message>>(HttpStatus.NOT_IMPLEMENTED);
+        
+        List<Integer> msgId = new ArrayList();
+        msgId.add((int) (long)caseId);
+        List<Message> mgs = (List<Message>) msgRepo.findAllById(msgId);
+        
+        return new ResponseEntity<List<Message>>(mgs,HttpStatus.NOT_IMPLEMENTED);
     }
     
     /*@RequestMapping(path = "/report/casesNumberByStatus/{date}", method=RequestMethod.GET)
