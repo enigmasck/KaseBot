@@ -15,6 +15,7 @@ import io.swagger.model.Administrator;
 import io.swagger.model.AdministratorRepository;
 import io.swagger.model.User;
 import io.swagger.model.UserCustRepository;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -52,20 +56,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             auth.inMemoryAuthentication().withUser(i.getLoginName()).password((i.getPassword())).roles("ADMIN");
         }
     }
+    
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(Boolean.TRUE);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
   
     @Override 
     protected void configure(HttpSecurity http) throws Exception {    
-      http.httpBasic().
-           realmName("spring-app").
-           and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
-           and().csrf().disable().
-           authorizeRequests().
-              antMatchers("/admins/**").hasAnyRole("ADMIN").
-              antMatchers("/reports/**").hasAnyRole("ADMIN").
-              antMatchers("/customers/**").hasAnyRole("USER","ADMIN").
-              antMatchers("/chat/**").permitAll().
-              anyRequest().fullyAuthenticated().and().httpBasic();
 
+        http.httpBasic().
+        realmName("spring-app").
+        and().cors().
+        and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).
+        and().csrf().disable().
+        authorizeRequests().
+            antMatchers("/admins/**").hasAnyRole("ADMIN").
+            antMatchers("/reports/**").hasAnyRole("ADMIN").
+            antMatchers("/customers/**").hasAnyRole("USER","ADMIN").
+            antMatchers("/chat/**").permitAll().
+        anyRequest().fullyAuthenticated().and().httpBasic();
+      
     }
 
 

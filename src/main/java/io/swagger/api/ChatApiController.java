@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.cloud.dialogflow.v2.QueryResult;
 import io.swagger.annotations.*;
 import io.swagger.model.DetectIntentTexts;
+import io.swagger.model.MessageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,14 +28,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import javax.annotation.security.PermitAll;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.threeten.bp.OffsetDateTime;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
-@CrossOrigin(origins = "http://localhost:3000")
 @Controller
-//@PermitAll
 public class ChatApiController implements ChatApi {
 
     private static final Logger log = LoggerFactory.getLogger(ChatApiController.class);
@@ -42,6 +42,9 @@ public class ChatApiController implements ChatApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+    
+    @Autowired
+    private MessageRepository msgRepo;
 
     @org.springframework.beans.factory.annotation.Autowired
     public ChatApiController(ObjectMapper objectMapper, HttpServletRequest request) {
