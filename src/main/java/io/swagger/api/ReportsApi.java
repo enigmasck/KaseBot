@@ -11,6 +11,7 @@ import io.swagger.model.Message;
 import io.swagger.model.ModelCase;
 import io.swagger.model.ResolOnUnresol;
 import io.swagger.annotations.*;
+import io.swagger.model.CaseInner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,7 +68,7 @@ public interface ReportsApi {
     @RequestMapping(value = "/reports/Search_case",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<ModelCase>> reportsSearchCaseGet(@ApiParam(value = "") @Valid @RequestParam(value = "CaseID", required = false) Long caseID,@ApiParam(value = "") @Valid @RequestParam(value = "CustomerID", required = false) Long customerID,@ApiParam(value = "") @Valid @RequestParam(value = "firstName", required = false) String firstName,@ApiParam(value = "") @Valid @RequestParam(value = "lastName", required = false) String lastName,@ApiParam(value = "") @Valid @RequestParam(value = "date", required = false) LocalDate date,@ApiParam(value = "") @Valid @RequestParam(value = "keyWord", required = false) String keyWord);
+    ResponseEntity<List<CaseInner>> reportsSearchCaseGet(@ApiParam(value = "") @Valid @RequestParam(value = "CaseID", required = false) Integer caseID,@ApiParam(value = "") @Valid @RequestParam(value = "CustomerID", required = false) Long customerID,@ApiParam(value = "") @Valid @RequestParam(value = "firstName", required = false) String firstName,@ApiParam(value = "") @Valid @RequestParam(value = "lastName", required = false) String lastName,@ApiParam(value = "") @Valid @RequestParam(value = "date", required = false) LocalDate date,@ApiParam(value = "") @Valid @RequestParam(value = "keyWord", required = false) String keyWord);
 
 
     @ApiOperation(value = "", nickname = "reportsViewMessageCaseIdGet", notes = "Gets all previous messages of a conversation (by Case id)", response = Message.class, responseContainer = "List", authorizations = {
