@@ -3,11 +3,14 @@ package io.swagger.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.ResUnRes;
+import java.util.Date;
 import java.util.UUID;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,6 +18,8 @@ import org.threeten.bp.LocalDate;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import static org.hibernate.type.descriptor.java.DateTypeDescriptor.DATE_FORMAT;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 /**
  * ResolOnUnresolInner
@@ -34,11 +39,15 @@ public class ResolOnUnresolInner   {
 
   @JsonProperty("date_time")
   @Column(name = "case_date")
-  private LocalDate dateTime = null;
+  @ApiModelProperty(required = true,example = "2016-01-01")
+  @JsonFormat(pattern = DATE_FORMAT)
+  @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+  //@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
+  private Date dateTime = null;
 
   @JsonProperty("status")
   @Column(name = "cases_status")
-  private ResUnRes status = null;
+  private String status = null;
 
   public ResolOnUnresolInner totalCases(Long totalCases) {
     this.totalCases = totalCases;
@@ -59,7 +68,7 @@ public class ResolOnUnresolInner   {
     this.totalCases = totalCases;
   }
 
-  public ResolOnUnresolInner dateTime(LocalDate dateTime) {
+  public ResolOnUnresolInner dateTime(Date dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -71,15 +80,15 @@ public class ResolOnUnresolInner   {
   @ApiModelProperty(value = "")
 
   @Valid
-  public LocalDate getDateTime() {
+  public Date getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(LocalDate dateTime) {
+  public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
   }
 
-  public ResolOnUnresolInner status(ResUnRes status) {
+  public ResolOnUnresolInner status(String status) {
     this.status = status;
     return this;
   }
@@ -91,11 +100,11 @@ public class ResolOnUnresolInner   {
   @ApiModelProperty(value = "")
 
   @Valid
-  public ResUnRes getStatus() {
+  public String getStatus() {
     return status;
   }
 
-  public void setStatus(ResUnRes status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 
