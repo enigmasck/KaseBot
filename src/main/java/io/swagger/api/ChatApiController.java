@@ -90,8 +90,7 @@ public class ChatApiController implements ChatApi {
         message.setId(1L);
         OffsetDateTime dateTime = OffsetDateTime.now();
         message.setMsgDateTime(dateTime);
-        
-        return new ResponseEntity<Message>(message, HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Message>(message, HttpStatus.OK);
     }
 
 }
