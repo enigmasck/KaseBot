@@ -22,6 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Api(value = "chat", description = "the chat API")
@@ -38,7 +39,6 @@ public interface ChatApi {
         produces = { "applicaiton/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Message>> chatIdGet(@ApiParam(value = "The customer id",required=true) @PathVariable("id") Long id);
-
 
     @ApiOperation(value = "", nickname = "submitMessage", notes = "Submits the message input by the customer.", response = Message.class, authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })

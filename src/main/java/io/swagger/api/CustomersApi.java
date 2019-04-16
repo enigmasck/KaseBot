@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.access.prepost.PreAuthorize;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Api(value = "customers", description = "the customers API")
 public interface CustomersApi {
@@ -48,7 +49,6 @@ public interface CustomersApi {
         method = RequestMethod.DELETE)
     ResponseEntity<Void> customersCustIdDelete(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId);
 
-
     @ApiOperation(value = "", nickname = "customersCustIdGet", notes = "Gets a customer by their id.", response = User.class, authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })
     @ApiResponses(value = { 
@@ -61,7 +61,6 @@ public interface CustomersApi {
         method = RequestMethod.GET)
     ResponseEntity<User> customersCustIdGet(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId);
 
-
     @ApiOperation(value = "", nickname = "customersCustIdPut", notes = "Modifies a customer", authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })
     @ApiResponses(value = { 
@@ -73,7 +72,6 @@ public interface CustomersApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Void> customersCustIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId);
-
 
     @ApiOperation(value = "", nickname = "customersGet", notes = "Obtains all the customers", response = User.class, responseContainer = "List", authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })
