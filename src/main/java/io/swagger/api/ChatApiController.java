@@ -22,6 +22,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,8 +88,8 @@ public class ChatApiController implements ChatApi {
         String messageResponse = response.get(body.getText()).getFulfillmentText();
         Message message = new Message();
         message.setText(messageResponse);
-        message.setId(1L);
-        OffsetDateTime dateTime = OffsetDateTime.now();
+        //message.setId(1L); //id will be created in the DB
+        LocalDateTime dateTime = LocalDateTime.now();
         message.setMsgDateTime(dateTime);
         return new ResponseEntity<Message>(message, HttpStatus.OK);
     }

@@ -10,5 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface UserCustRepository extends CrudRepository<User, Integer> {
     List<User> findByEmail(String email);
-    
+    List<User> findByFnameContaining(String name);
+    List<User> findByLnameContaining(String name);
 }
