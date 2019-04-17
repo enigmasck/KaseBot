@@ -55,7 +55,7 @@ public interface ReportsApi {
     @RequestMapping(value = "/reports/Resol_on_unresol_time",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<ResolOnUnresol> reportsResolOnUnresolTimeGet();
+    ResponseEntity<List<ResolOnUnresol>> reportsResolOnUnresolTimeGet();
 
 
     @ApiOperation(value = "", nickname = "reportsSearchCaseGet", notes = "gets Cases by CaseID, CustomerID, First or Last Name, Date or Key-Word", response = ModelCase.class, responseContainer = "List", authorizations = {
