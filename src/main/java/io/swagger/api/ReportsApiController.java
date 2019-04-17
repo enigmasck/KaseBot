@@ -105,7 +105,7 @@ public class ReportsApiController implements ReportsApi {
         //if(rou == null)
          //   return new ResponseEntity<ResolOnUnresol>(HttpStatus.NOT_FOUND);
         //Response
-        return new ResponseEntity<List<ResolOnUnresol>>(resolveList, HttpStatus.OK);
+        return new ResponseEntity<List<ResolOnUnresol>>((MultiValueMap<String, String>) resolveList, HttpStatus.OK);
     }
 
     public ResponseEntity<List<CaseInner>> reportsSearchCaseGet(@ApiParam(value = "") @Valid @RequestParam(value = "CaseID", required = false) Integer caseID,@ApiParam(value = "") @Valid @RequestParam(value = "CustomerID", required = false) Long customerID,@ApiParam(value = "") @Valid @RequestParam(value = "firstName", required = false) String firstName,@ApiParam(value = "") @Valid @RequestParam(value = "lastName", required = false) String lastName,@ApiParam(value = "") @Valid @RequestParam(value = "date", required = false) LocalDate date,@ApiParam(value = "") @Valid @RequestParam(value = "keyWord", required = false) String keyWord) {
