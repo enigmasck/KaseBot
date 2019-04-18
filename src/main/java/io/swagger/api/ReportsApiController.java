@@ -51,7 +51,8 @@ import org.threeten.bp.Month;
 /*
 Name: ReportsAiController
 Purpose: This controller handles the business logic involved with case statistics.
-It can display 
+It can display average case duration, number of resolved and unresolved cases,
+and searching of cases by first name, last name, and keyword.
 */
 public class ReportsApiController implements ReportsApi {
 
@@ -80,34 +81,38 @@ public class ReportsApiController implements ReportsApi {
         this.objectMapper = objectMapper;
         this.request = request;
     }
-
+    /*
+    TODO - FUNCTIONALITY NOT AVAILABLE YET. WILL SHIP IN V2
+    Name: reportsAvgCaseDurGet
+    Purpose: This method enables a manager to view reports of the average case duration.
+    The data is pulled from a view in the database. It is calculated in real-time.
+    A case duration is considered by calculating the data difference between
+    the case creation and the last message of the case.
+    */
     public ResponseEntity<AvgCaseDur> reportsAvgCaseDurGet() {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<AvgCaseDur>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    /*
+    Name: reportsResolOnUnresolTimeGet
+    Purpose: The purpose of this method is to get a count of the cases by the 
+    whether the case was resolved, unresolved, or in progress
+    */
     public ResponseEntity<List<ResolOnUnresol>> reportsResolOnUnresolTimeGet() {
         String accept = request.getHeader("Accept");
        
         List<ResolOnUnresolInner> resolveList = Lists.newArrayList(resolveRepo.findAll());
                
-        //ResolOnUnresol rou = new ResolOnUnresol();
-        //ResolOnUnresolInner roui = new ResolOnUnresolInner();
-        
-        //dates = SELECT DISTINCT date_time from Cases
-        
-        //roui.setTotalCases(Long.valueOf(23));
-        //roui.setDateTime(LocalDate.of(2019, Month.of(3), 1));
-        //roui.setStatus(ResUnRes.RESOLVED);
-        
-        //rou.add(roui);
-        
-        //if(rou == null)
-         //   return new ResponseEntity<ResolOnUnresol>(HttpStatus.NOT_FOUND);
-        //Response
         return new ResponseEntity<List<ResolOnUnresol>>((MultiValueMap<String, String>) resolveList, HttpStatus.OK);
     }
 
+    /*
+    Name: reportsSearchCaseGet
+    Purpose: This method provides functionality to a manger to search cases by
+    first name, last name, or by keyword. It is also utilized by the chat bot
+    to get listings of cases when a customer is inquiring for help.
+    */
     public ResponseEntity<List<CaseInner>> reportsSearchCaseGet(@ApiParam(value = "") @Valid @RequestParam(value = "CaseID", required = false) Integer caseID,@ApiParam(value = "") @Valid @RequestParam(value = "CustomerID", required = false) Long customerID,@ApiParam(value = "") @Valid @RequestParam(value = "firstName", required = false) String firstName,@ApiParam(value = "") @Valid @RequestParam(value = "lastName", required = false) String lastName,@ApiParam(value = "") @Valid @RequestParam(value = "date", required = false) LocalDate date,@ApiParam(value = "") @Valid @RequestParam(value = "keyWord", required = false) String keyWord) {
         String accept = request.getHeader("Accept");
         
@@ -149,13 +154,17 @@ public class ReportsApiController implements ReportsApi {
                 List<CaseInner> caseByKeyword = caseInRepo.findByCasesNotesContainingIgnoreCase(keyWord);
                 return new ResponseEntity<List<CaseInner>>(caseByKeyword,HttpStatus.OK);
             }catch(Exception e){
-                System.out.println(e);
+                return new ResponseEntity<List<CaseInner>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
         
         return new ResponseEntity<List<CaseInner>>(HttpStatus.BAD_REQUEST);
     }
-
+    /*
+    Name: reportsViewMessageCaseIdGet
+    Purpose: This method provides functionality to a manager so they get view 
+    messages of a particular case.
+    */
     public ResponseEntity<List<Message>> reportsViewMessageCaseIdGet(@ApiParam(value = "The case Id",required=true) @PathVariable("caseId") Long caseId) {
         String accept = request.getHeader("Accept");
         
@@ -163,12 +172,7 @@ public class ReportsApiController implements ReportsApi {
         msgId.add((int) (long)caseId);
         List<Message> mgs = (List<Message>) msgRepo.findAllById(msgId);
         
-        return new ResponseEntity<List<Message>>(mgs,HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Message>>(mgs,HttpStatus.OK);
     }
     
-    /*@RequestMapping(path = "/report/casesNumberByStatus/{date}", method=RequestMethod.GET)
-    public Map<String, Integer> getCode(@PathVariable String date) throws SQLException{
-        return dao.getNumberOfCaseInDifferentStatus(date);
-    }*/
-
 }

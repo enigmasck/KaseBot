@@ -29,6 +29,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+/*
+Name: AdminsApiController
+Purpose: The AdminsApiController handles all the business logic related to the 
+managers of the application. It enables them to onboard, by creating a new account,
+view their account details, update details on their own account, and delete their account.
+*/
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
 public class AdminsApiController implements AdminsApi {
@@ -48,29 +54,39 @@ public class AdminsApiController implements AdminsApi {
         this.request = request;
     }
     
-    //Delete an admin using the Spring JPA
+    /*
+    Name: adminsAdminIdDelete
+    Purpose: Enables a manager to delete their own account.
+    */
     public ResponseEntity<Void> adminsAdminIdDelete(@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId) {
         String accept = request.getHeader("Accept");
         try{
             adminRepo.deleteById(adminId);
             return new ResponseEntity<Void>(HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }
         
     }
 
-    //Gets an Admin by ID using the Spring JPA
+    /*
+    Name: adminsAdminIdGet
+    Purpose: This method enables a manager to get their account details of their
+    own account.
+    */
     public ResponseEntity<Administrator> adminsAdminIdGet(@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId) {
         String accept = request.getHeader("Accept");
         Optional<Administrator> admin = adminRepo.findById(adminId);
         if(admin.isPresent() == true)
             return new ResponseEntity<Administrator>(admin.get(),HttpStatus.OK);
         else
-            return new ResponseEntity<Administrator>(HttpStatus.NO_CONTENT); 
+            return new ResponseEntity<Administrator>(HttpStatus.BAD_REQUEST); 
     }
 
-    //Updates an admin using the Spring JPA
+    /*
+    Name: adminsAdminIdPut
+    Purpose: This method enables a manager to update their account details
+    */
     public ResponseEntity<Void> adminsAdminIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Administrator body,@ApiParam(value = "The admin ID",required=true) @PathVariable("adminId") Integer adminId) {
         String accept = request.getHeader("Accept");
         Optional<Administrator> oldAdmin = adminRepo.findById(adminId);
@@ -82,32 +98,40 @@ public class AdminsApiController implements AdminsApi {
                 adminRepo.save(oldAdmin.get());
                 return new ResponseEntity<Void>(HttpStatus.CREATED);
             }else{
-                return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
             }
 
         }else{
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
         
     }
 
-    //Gets All Admins using the Spring JPA
+    /*
+    Name: adminsGet 
+    Purpose: The purpose of this method is to allow manager to view details of 
+    all other manager accounts.
+    */
     public ResponseEntity<List<Administrator>> adminsGet() {
         String accept = request.getHeader("Accept");
         List<Administrator> adminList = Lists.newArrayList(adminRepo.findAll());
         if(adminList != null)
             return new ResponseEntity<List<Administrator>>(adminList,HttpStatus.OK);
         else
-            return new ResponseEntity<List<Administrator>>(HttpStatus.NO_CONTENT); 
+            return new ResponseEntity<List<Administrator>>(HttpStatus.BAD_REQUEST); 
     }
 
-    //Creates a new admin record using the spring JPA
+    /*
+    Name: createAdmin
+    Purpose: The purpose of this method is to enable a manager to create a new 
+    account.
+    */
     public ResponseEntity<Void> createAdmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Administrator body) {
         String accept = request.getHeader("Accept");
         //check to see if admin login already exists
         List<Administrator> testLogin = adminRepo.findByLoginName(body.getLoginName());
         if(testLogin.size() > 0 ){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
 
         if(body != null && body.getLoginName().length() > 3 && body.getPassword().length() > 3){
@@ -117,16 +141,10 @@ public class AdminsApiController implements AdminsApi {
             }catch(Exception e){
                 System.out.println(e);
             }
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }else{
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
     }
-
-    //Not sure if this will be implemented - Will find out how login page works with springboot
-    /*public ResponseEntity<Void> loginAmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }*/
 
 }

@@ -88,13 +88,4 @@ public interface AdminsApi {
         method = RequestMethod.POST)
     ResponseEntity<Void> createAdmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Administrator body);
 
-
-    /*@ApiOperation(value = "", nickname = "loginAmin", notes = "Logs the admin into account", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 204, message = "Login Successful") })
-    @RequestMapping(value = "/admins/Login",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> loginAmin(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body);*/
-
 }
