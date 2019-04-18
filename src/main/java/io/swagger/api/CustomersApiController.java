@@ -31,6 +31,14 @@ import io.swagger.model.UserCustRepository;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+/*
+Name: CustomersApiController
+Purpose: The CustomerApiController handles all the business logic related to the 
+customers of the application. It enables them to onboard, by creating a new account,
+view their account details, update details on their own account, and delete their account.
+Managers also have access to this business logic in order to view customer accounts
+and manager them as well.
+*/
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-12T16:03:36.994Z[GMT]")
 @Controller
 public class CustomersApiController implements CustomersApi {
@@ -49,47 +57,63 @@ public class CustomersApiController implements CustomersApi {
         this.objectMapper = objectMapper;
         this.request = request;
     }
-
+    /*
+    Name: createCustomer
+    Purpose: This method allows a new user to create a customer account. It requires
+    for the email and password to be more than 3 characters in length. 
+    */
     public ResponseEntity<Void> createCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body) {
         String accept = request.getHeader("Accept");
         
         //check to see if user email already exists
         List<User> testEmail = userCustRepository.findByEmail(body.getEmail());
         if(testEmail.size() > 0 ){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
 
         if(body != null && body.getEmail().length() > 3 && body.getPassword().length() > 3){
             userCustRepository.save(body);
             return new ResponseEntity<Void>(HttpStatus.CREATED);
         }else{
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
     }
-    
+    /*
+    Name: customersCustIdDelete
+    Purpose: This method enables a customer or manager to delete a customer 
+    account. In regards to a customer it would be to delete their own account.
+    */
     public ResponseEntity<Void> customersCustIdDelete(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
         try{
             userCustRepository.deleteById(custId);
-            return new ResponseEntity<Void>(HttpStatus.OK);
+            return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
         }catch(Exception e){
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
     }
 
-    //gets a customer using GET and ID. Returns an optional, which is basically
-    //a container that allows for NULL
+    /*
+    Name: customersCustIdGet
+    Purpose: This method provides functionality for a customer or manager to view
+    a specific customer. For a customer it would be their own profile information.
+    It requires a userId in the resource.
+    */
     public ResponseEntity<User> customersCustIdGet(@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
         Optional<User> cust = userCustRepository.findById(custId);
         if(cust.isPresent() == true)
             return new ResponseEntity<User>(cust.get(),HttpStatus.OK);
         else
-            return new ResponseEntity<User>(HttpStatus.NO_CONTENT); 
+            return new ResponseEntity<User>(HttpStatus.BAD_REQUEST); 
     }
     
-    //Modifies a customer using Spring JPA
+    /*
+    Name: customersCustIdPut
+    Purpose: This method enables a manager or customer to update their account
+    information, such as a email or password.
+    */
     public ResponseEntity<Void> customersCustIdPut(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body,@ApiParam(value = "The user ID",required=true) @PathVariable("custId") Integer custId) {
         String accept = request.getHeader("Accept");
         
@@ -106,25 +130,23 @@ public class CustomersApiController implements CustomersApi {
             }
 
         }else{
-            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
         }
         
     }
     
-    //Gets all customers using the Srping JPA MAGIC!!!
+    /*
+    Name: customersGet
+    Purpose: Returns all customers that a manager can request to view.
+    */
     public ResponseEntity<List<User>> customersGet() {
         String accept = request.getHeader("Accept");
         List<User> custList = Lists.newArrayList(userCustRepository.findAll());
         if(custList != null)
             return new ResponseEntity<List<User>>(custList,HttpStatus.OK);
         else
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT); 
+            return new ResponseEntity<List<User>>(HttpStatus.BAD_REQUEST); 
     }
     
-    //Not sure if this needs to be implement since this is handle by Spring Security
-    /*public ResponseEntity<Void> loginCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
-    }*/
 
 }

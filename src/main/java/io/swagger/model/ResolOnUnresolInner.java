@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.ResUnRes;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -35,21 +36,21 @@ public class ResolOnUnresolInner   {
   
   @JsonProperty("total_cases")
   @Column(name = "total_count")
-  private Long totalCases = null;
+  private Integer totalCases = null;
 
   @JsonProperty("date_time")
   @Column(name = "case_date")
-  @ApiModelProperty(required = true,example = "2016-01-01")
-  @JsonFormat(pattern = DATE_FORMAT)
-  @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+  //@ApiModelProperty(required = true,example = "2016-01-01")
+  //@JsonFormat(pattern = DATE_FORMAT)
+  //@Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
   //@ApiModelProperty(required = true, dataType = "org.joda.time.LocalDate")
-  private Date dateTime = null;
+  private LocalDateTime dateTime = null;
 
   @JsonProperty("status")
   @Column(name = "cases_status")
   private String status = null;
 
-  public ResolOnUnresolInner totalCases(Long totalCases) {
+  public ResolOnUnresolInner totalCases(Integer totalCases) {
     this.totalCases = totalCases;
     return this;
   }
@@ -60,15 +61,15 @@ public class ResolOnUnresolInner   {
   **/
   @ApiModelProperty(value = "")
 
-  public Long getTotalCases() {
+  public Integer getTotalCases() {
     return totalCases;
   }
 
-  public void setTotalCases(Long totalCases) {
+  public void setTotalCases(Integer totalCases) {
     this.totalCases = totalCases;
   }
 
-  public ResolOnUnresolInner dateTime(Date dateTime) {
+  public ResolOnUnresolInner dateTime(LocalDateTime dateTime) {
     this.dateTime = dateTime;
     return this;
   }
@@ -80,11 +81,11 @@ public class ResolOnUnresolInner   {
   @ApiModelProperty(value = "")
 
   @Valid
-  public Date getDateTime() {
+  public LocalDateTime getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(Date dateTime) {
+  public void setDateTime(LocalDateTime dateTime) {
     this.dateTime = dateTime;
   }
 

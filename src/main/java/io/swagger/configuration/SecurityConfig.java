@@ -41,7 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AdministratorRepository adminRepo;
     
-    //configures all the admin and customers auth in the Kasebot app
+    /*
+    Purpose: configures all the admin and customers auth in the Kasebot app. Gets
+    all users and admins from the database and sets up their username, password,
+    and roles for basic authentication. 
+    */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         
@@ -57,7 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             auth.inMemoryAuthentication().withUser(i.getLoginName()).password((i.getPassword())).roles("ADMIN");
         }
     }
-    
+    /*
+    Purpose: This is required for CORS. Spring boot enables it by default, 
+    and it automatically applies the same-origin policy, which prevents javascript
+    from running from a different domain.
+    We set ours to allow all since our API could be implmented as a public API.
+    It would need to allow any origin to access it.
+    */
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration configuration = new CorsConfiguration();
@@ -69,7 +79,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-  
+    /*
+    Purpose: This method is what configures the spring security. We choose to implement
+    security in this fashion as opposed to using @Preauthorize or @Secured annotations
+    at the class/controller level because it's one central location for securing the
+    webapp. As the application grows it would become harder to manage all the locations of the 
+    security. Whereas all security configurations can be found here. Although there are a couple caveats:
+    
+    We had to disable the csfr, by using csrf().disable().
+    Orderin the antMatchers is very important. It has to be done in order. It's also important
+    to understand how the spring boot precendence of security works. The anyRequest().fullyAuthenticated()
+    is applied first before any other permissions. So if you require fullyAuthenticated, then 
+    permitAll will not work for users that are not authenticated even though it 
+    applys permitAll for the specifc HttpMethod and resource. 
+    */
     @Override 
     protected void configure(HttpSecurity http) throws Exception {    
 

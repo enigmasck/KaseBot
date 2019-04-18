@@ -85,17 +85,4 @@ public interface CustomersApi {
         method = RequestMethod.GET)
     ResponseEntity<List<User>> customersGet();
 
-    //Not sure if this needs to be implement since this is handle by Spring Security
-    /*
-    @ApiOperation(value = "", nickname = "loginCustomer", notes = "Logs the customer into account", tags={  })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 204, message = "Login Successful"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 404, message = "Error: Not Found") })
-    @RequestMapping(value = "/customers/login",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> loginCustomer(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Login body);*/
-
 }
