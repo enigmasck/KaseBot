@@ -53,13 +53,26 @@ public class ChatApiController implements ChatApi {
         this.request = request;
     }
 
+    /*
+    TODO - FUNCTIONALITY NOT AVAILABLE YET. WILL SHIP IN V2
+    Name: chatIdGet
+    Purpose: This method gives the conversation till present of the chatbot
+    and the customer whose ID is passed
+    */
     public ResponseEntity<List<Message>> chatIdGet(@ApiParam(value = "The customer id",required=true) @PathVariable("id") Long id) {
-        //T - Here simply insert a query that gets the list of messages of a certain customer ID
+        //Here simply insert a query that gets the list of messages of a certain customer ID
         String accept = request.getHeader("Accept");
         return new ResponseEntity<List<Message>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    
+    /*
+    Name: submitMessage
+    Purpose: This method is used to interact with the chatbot,
+    a message is passed through the request, the API gets the answer from the
+    Google API chatbot, and it sends it back as the POST answer.
+    This functionality needs a credentials file to be used, please contact
+    the creator to ask for the file.
+    */
     public ResponseEntity<Message> submitMessage(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Message body) {
         //Querying the google Dialogflow API to get an answer to the message
         String accept = request.getHeader("Accept");
@@ -88,7 +101,6 @@ public class ChatApiController implements ChatApi {
         String messageResponse = response.get(body.getText()).getFulfillmentText();
         Message message = new Message();
         message.setText(messageResponse);
-        //message.setId(1L); //id will be created in the DB
         LocalDateTime dateTime = LocalDateTime.now();
         message.setMsgDateTime(dateTime);
         return new ResponseEntity<Message>(message, HttpStatus.OK);
